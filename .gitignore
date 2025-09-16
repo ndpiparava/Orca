@@ -1,0 +1,74 @@
+# ====================================================
+# Gitignore for files inside Orca/ folder only
+# ====================================================
+
+# OSX
+Orca/.DS_Store
+
+# Xcode
+Orca/build/
+Orca/*.pbxuser
+!Orca/default.pbxuser
+Orca/*.mode1v3
+!Orca/default.mode1v3
+Orca/*.mode2v3
+!Orca/default.mode2v3
+Orca/*.perspectivev3
+!Orca/default.perspectivev3
+Orca/xcuserdata
+Orca/*.xccheckout
+Orca/*.moved-aside
+Orca/DerivedData
+Orca/*.hmap
+Orca/*.ipa
+Orca/**/.xcode.env.local
+
+# Android/IntelliJ
+Orca/build/
+Orca/.idea
+Orca/.gradle
+Orca/local.properties
+Orca/*.iml
+Orca/*.hprof
+Orca/.cxx/
+Orca/*.keystore
+!Orca/debug.keystore
+Orca/.kotlin/
+
+# node.js
+Orca/node_modules/
+Orca/npm-debug.log
+Orca/yarn-error.log
+
+# fastlane
+Orca/fastlane/report.xml
+Orca/fastlane/Preview.html
+Orca/fastlane/screenshots
+Orca/fastlane/test_output
+
+# Bundle artifact
+Orca/*.jsbundle
+
+# Ruby / CocoaPods
+Orca/**/Pods/
+Orca/vendor/bundle/
+
+# Temporary files created by Metro to check the health of the file watcher
+Orca/.metro-health-check*
+
+# testing
+Orca/coverage
+
+# Yarn
+Orca/.yarn/*
+!Orca/.yarn/patches
+!Orca/.yarn/plugins
+!Orca/.yarn/releases
+!Orca/.yarn/sdks
+!Orca/.yarn/versions
+
+
+# ====================================================
+# Gitignore for files inside backend/ folder only
+# ====================================================
+backend/node_modules/
