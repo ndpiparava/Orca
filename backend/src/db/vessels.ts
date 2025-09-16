@@ -1,7 +1,6 @@
 import { sql } from "drizzle-orm";
 
-import type { Vessel } from "../types";
-import type { BoundingBox } from "./../schemas";
+import type { BoundingBox, Vessel } from "./../schemas";
 import { db } from "./connector";
 import { vessels } from "./tables";
 
