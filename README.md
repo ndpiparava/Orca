@@ -4,7 +4,7 @@
 - FE : Vessels visualization on map
 
 
-![Demo video](./assets/Orca.mp4 "demo") ![Mobile app screenshot](/assets/snapshot.png "snapshot")
+![Demo video](./assets/orca.gif "demo") ![Marker cluster ](/assets/cluster.gif "demo") ![Mobile app screenshot](/assets/snapshot.png "snapshot")
 
 
 - AIS (Automatic Identification System) is a mandatory tracking system that broadcasts vessel identity, position, course, and speed to prevent collisions, with signals received by ground stations and satellites to enable global ship tracking.
