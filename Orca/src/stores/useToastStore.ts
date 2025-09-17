@@ -1,7 +1,6 @@
+import {create} from 'zustand';
 
-import { create } from 'zustand';
-
-type Toast = { id: number; message: string };
+type Toast = {id: number; message: string};
 
 type ToastState = {
   queue: Toast[];
@@ -10,33 +9,33 @@ type ToastState = {
   popToast: () => void;
 };
 
-const TOAST_DISPLAY_TIME = 3000; 
+const TOAST_DISPLAY_TIME = 3000;
 export const useToastStore = create<ToastState>((set, get) => ({
   queue: [],
   visible: null,
 
-  showToast: (message) => {
-    const newToast = { id: Date.now(), message };
-    const { visible } = get();
-    // For now keep only one toast visible at a time 
-    set((state) => ({ queue: [newToast] }));
+  showToast: message => {
+    const newToast = {id: Date.now(), message};
+    const {visible} = get();
+    // For now keep only one toast visible at a time
+    set(state => ({queue: [newToast]}));
     if (!visible) {
       get().popToast();
     }
   },
 
   popToast: () => {
-    const { queue } = get();
+    const {queue} = get();
     if (queue.length === 0) {
-      set({ visible: null });
+      set({visible: null});
       return;
     }
 
     const [next, ...rest] = queue;
-    set({ visible: next, queue: rest });
+    set({visible: next, queue: rest});
 
     setTimeout(() => {
-      set({ visible: null });
+      set({visible: null});
       get().popToast();
     }, TOAST_DISPLAY_TIME);
   },

@@ -6,7 +6,7 @@ import {StatusBar} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from 'styled-components/native';
 import Mapbox from '@rnmapbox/maps';
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
 
 import AppStack from './appstack';
 import {useLocaleStore} from './stores/useLocaleStore';
@@ -35,8 +35,6 @@ Logs the error (from Mapbox-Map) to the console if needed
 if (isProdEnv || isIntEnv || isDevEnv) {
   Mapbox.Logger.sharedInstance().stop();
 }
-
-
 
 LogBox.ignoreAllLogs(true);
 

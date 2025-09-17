@@ -69,6 +69,10 @@ Orca/.yarn/*
 
 Orca/.env
 
+Orca/android/.gradle
+Orca/android/app/.cxx
+Orca/android/app/build
+
 
 # ====================================================
 # Gitignore for files inside backend/ folder only

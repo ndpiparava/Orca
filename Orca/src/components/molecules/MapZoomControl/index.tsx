@@ -17,7 +17,7 @@ const MapZoomControl: React.FC = () => {
     <Container>
       <CollapsedButton onPress={toggleExpanded}>
         <ZoomLevelText>{minZoom}</ZoomLevelText>
-         <ZoomIcon />
+        <ZoomIcon />
       </CollapsedButton>
 
       {expanded && (
@@ -55,8 +55,6 @@ const CollapsedButton = styled(TouchableOpacity)`
   align-items: center;
   justify-content: center;
 `;
-
-
 
 const ExpandedContainer = styled.View`
   margin-top: 8px;

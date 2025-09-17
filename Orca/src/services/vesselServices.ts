@@ -4,17 +4,17 @@ import {
   vesselArrayDTO,
   VesselDTO,
 } from '@Orca/types/types';
-
-import {env} from '@Orca/utils/env';
+import {getApiBaseUrl} from '@Orca/utils/api';
 
 export async function fetchVesselsInBoundingBox(
   bbox: BoundingBox,
 ): Promise<VesselDTO[]> {
   try {
     const parsedBbox = bboxQueryDTO.parse(bbox);
-    const { west, south, east, north } = parsedBbox;
-    const url = `${env.ORCA_VESSEL_API_URL}/api/vessels?south=${south}&west=${west}&north=${north}&east=${east}`;
-    console.log('fetchVesselsInBoundingBox url:', url);
+    const {west, south, east, north} = parsedBbox;
+    const baseUrl = await getApiBaseUrl();
+    const url = `${baseUrl}/api/vessels?south=${south}&west=${west}&north=${north}&east=${east}`;
+    //console.log('fetchVesselsInBoundingBox url:', url);
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -26,7 +26,10 @@ export async function fetchVesselsInBoundingBox(
     if (!response.ok) throw new Error('Failed to fetch vessels');
     const json = await response.json();
     const parsedVessels = vesselArrayDTO.parse(json);
-    console.log('fetchVesselsInBoundingBox parsedVessels==', parsedVessels.length);
+    console.log(
+      'fetchVesselsInBoundingBox parsedVessels==',
+      parsedVessels.length,
+    );
     return parsedVessels;
   } catch (error) {
     //TODO:track with Sentry

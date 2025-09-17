@@ -5,3 +5,7 @@ coverage/
 /metro.config.js
 /.eslintrc.js
 jest.config.js
+/node_modules/
+/android/
+/ios/
+/vendor/

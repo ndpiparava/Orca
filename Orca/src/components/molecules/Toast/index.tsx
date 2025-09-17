@@ -1,11 +1,9 @@
-import { useToastStore } from '@Orca/stores/useToastStore';
-import React, { memo } from 'react';
+import {useToastStore} from '@Orca/stores/useToastStore';
+import React, {memo} from 'react';
 import styled from 'styled-components/native';
 
-
-
 const Toast = () => {
-  const visible = useToastStore((s) => s.visible);
+  const visible = useToastStore(s => s.visible);
 
   if (!visible) return null;
 
