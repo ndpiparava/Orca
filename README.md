@@ -124,10 +124,10 @@ _Notes:_
 2. Install deps:
 
 ```bash
-cd frontend/mobile/AISViewer && npm install
+cd Orca && npm install
 ```
 
-2. Create a `frontend/mobile/AISViewer/.env` file like the template:
+2. Create a `Orca/Orca/.env` file like the template:
 
 ```bash
 MAPBOX_API_KEY=mapbox-api-key
@@ -144,7 +144,7 @@ Create a `.env` file in the project root with the following content:
 ORCA_MAPBOX_ACCESS_TOKEN=xxxxx
 
 # Backend API endpoint
-ORCA_VESSEL_API_URL=http://localhost:3000 or https://aisstream.io
+ORCA_VESSEL_API_URL=http://localhost:3000
 
 # Environment mode
 ORCA_ENV=development
