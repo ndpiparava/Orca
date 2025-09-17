@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // Primitive types
 const latSchema = z.number().min(-90).max(90);
@@ -31,7 +31,6 @@ export const messageSchema = z.object({
     }),
   }),
 });
-
 
 export type Vessel = z.infer<typeof vesselSchema>;
 export type Coordinates = z.infer<typeof coordinatesSchema>;

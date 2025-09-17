@@ -9,7 +9,7 @@ import {
 export const vessels = pgTable(
   "vessels",
   {
-    // User ID 
+    // User ID
     mmsi: integer("mmsi").primaryKey(),
     // Geo point
     position: geometry("position", {

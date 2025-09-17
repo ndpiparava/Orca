@@ -1,16 +1,14 @@
 import WebSocket from "ws";
 import { upsertVesselsBatch } from "../db/vessels";
-import { type Message, messageSchema, Vessel } from "../schemas";
-
+import { type Message, messageSchema, type Vessel } from "../schemas";
 
 const defaultBoundingBox = [
   [-90, -180],
   [90, 180],
 ];
 
-
 // Parse and convert AIS message
-function parsePositionReport(msg: Message) : Vessel{
+function parsePositionReport(msg: Message): Vessel {
   const parsed = messageSchema.parse(msg);
 
   return {
@@ -24,21 +22,20 @@ function parsePositionReport(msg: Message) : Vessel{
   };
 }
 
-
 // Subscribe to AIS stream
 function createSubscriptionMessage(apiKey: string) {
   return {
     Apikey: apiKey,
-    BoundingBoxes: [
-      defaultBoundingBox
-    ],
+    BoundingBoxes: [defaultBoundingBox],
     FilterMessageTypes: ["PositionReport"],
   };
 }
 
-
 // WebSocket connection logic
-function setupWebSocket(apiKey: string, onVessel: (v: ReturnType<typeof parsePositionReport>) => Promise<void>) {
+function setupWebSocket(
+  apiKey: string,
+  onVessel: (v: ReturnType<typeof parsePositionReport>) => Promise<void>
+) {
   const ws = new WebSocket("wss://stream.aisstream.io/v0/stream");
 
   ws.on("open", () => {
@@ -53,23 +50,30 @@ function setupWebSocket(apiKey: string, onVessel: (v: ReturnType<typeof parsePos
       const vessel = parsePositionReport(msg);
       await onVessel(vessel);
     } catch (err) {
-      console.error(`[AIS Ingest] (${new Date().toISOString()}) - Error handling message:`, err);
+      console.error(
+        `[AIS Ingest] (${new Date().toISOString()}) - Error handling message:`,
+        err
+      );
     }
   });
 
   ws.on("close", () => {
-    console.warn(`[AIS Ingest] (${new Date().toISOString()}) - WebSocket closed, reconnecting...`);
+    console.warn(
+      `[AIS Ingest] (${new Date().toISOString()}) - WebSocket closed, reconnecting...`
+    );
     setTimeout(() => setupWebSocket(apiKey, onVessel), 1000);
   });
 
   ws.on("error", (err) => {
-    console.error(`[AIS Ingest] (${new Date().toISOString()}) - WebSocket error:`, err);
+    console.error(
+      `[AIS Ingest] (${new Date().toISOString()}) - WebSocket error:`,
+      err
+    );
     ws.close();
   });
 
   return ws;
 }
-
 
 // Main Ingestion Entry Point
 export function ingestVesselsData() {
@@ -81,7 +85,7 @@ export function ingestVesselsData() {
 
   // --- Batch buffer ---
   const batch: ReturnType<typeof parsePositionReport>[] = [];
-  const BATCH_SIZE = 100;     // flush when 100 vessels accumulated
+  const BATCH_SIZE = 100; // flush when 100 vessels accumulated
   const FLUSH_INTERVAL = 500; // flush at least every 500ms
 
   // Function to flush buffer
@@ -93,7 +97,10 @@ export function ingestVesselsData() {
       await upsertVesselsBatch(vesselsToInsert); // <-- modify upsertVessel to accept array
       insertedPerSec += vesselsToInsert.length;
     } catch (err) {
-      console.error(`[AIS Ingest] (${new Date().toISOString()}) - Failed to flush batch:`, err);
+      console.error(
+        `[AIS Ingest] (${new Date().toISOString()}) - Failed to flush batch:`,
+        err
+      );
       // put vessels back in queue if needed
       batch.unshift(...vesselsToInsert);
     }
@@ -104,13 +111,17 @@ export function ingestVesselsData() {
 
   // Log ingestion rate every second
   setInterval(() => {
-    console.log(`[AIS Ingest] received=${receivedPerSec}/s inserted=${insertedPerSec}/s`);
+    console.log(
+      `[AIS Ingest] received=${receivedPerSec}/s inserted=${insertedPerSec}/s`
+    );
     receivedPerSec = 0;
     insertedPerSec = 0;
   }, 1000);
 
   // Handler puts vessel into buffer
-  const handleVessel = async (vessel: ReturnType<typeof parsePositionReport>) => {
+  const handleVessel = async (
+    vessel: ReturnType<typeof parsePositionReport>
+  ) => {
     receivedPerSec++;
     //console.log("Received vessel:====", receivedPerSec);
     batch.push(vessel);
@@ -123,7 +134,9 @@ export function ingestVesselsData() {
 
   // Graceful shutdown
   const shutdown = async () => {
-    console.log(`[AIS Ingest] (${new Date().toISOString()}) - Shutting down AIS ingestion...`);
+    console.log(
+      `[AIS Ingest] (${new Date().toISOString()}) - Shutting down AIS ingestion...`
+    );
     await flushBatch(); // flush any remaining vessels
     ws.close();
     process.exit(0);

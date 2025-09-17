@@ -4,7 +4,7 @@ import Fastify from "fastify";
 import { registerApiVesselRoutes } from "./api/vessels";
 import { ingestVesselsData } from "./ingest/vessels";
 
-const port = 3000; 
+const port = 3000;
 const host = "0.0.0.0";
 
 async function main() {
@@ -19,7 +19,7 @@ async function main() {
 
   // Start server
   try {
-    await fastify.listen({ port: port, host: host});
+    await fastify.listen({ port: port, host: host });
     fastify.log.info("API server running at http://localhost:3000/");
   } catch (err) {
     fastify.log.error(err);

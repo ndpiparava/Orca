@@ -7,17 +7,22 @@ import { vessels } from "./tables";
 /*
 Upsert a batch of vessels into the database.
 */
-export async function upsertVesselsBatch(data : Vessel[] | Vessel) {
+export async function upsertVesselsBatch(data: Vessel[] | Vessel) {
   const batch = Array.isArray(data) ? data : [data];
-  const validBatch = batch.filter(v => v.position.every(n => typeof n === "number"));
+  const validBatch = batch.filter((v) =>
+    v.position.every((n) => typeof n === "number")
+  );
   if (validBatch.length === 0) return;
 
   const uniqueBatch = Object.values(
-  validBatch.reduce((acc, v) => {
-    acc[v.mmsi] = v; // overwrite with latest occurrence
-    return acc;
-  }, {} as Record<number, Vessel>)
-);
+    validBatch.reduce(
+      (acc, v) => {
+        acc[v.mmsi] = v; // overwrite with latest occurrence
+        return acc;
+      },
+      {} as Record<number, Vessel>
+    )
+  );
 
   await db
     .insert(vessels)
@@ -38,7 +43,6 @@ export async function upsertVesselsBatch(data : Vessel[] | Vessel) {
       },
     });
 }
-
 
 /*
  Query all vessels within a bounding box and updated in the last 2 minutes.
