@@ -72,6 +72,7 @@ Orca/.env
 Orca/android/.gradle
 Orca/android/app/.cxx
 Orca/android/app/build
+Orca/android/build/reports
 
 
 # ====================================================
