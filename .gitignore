@@ -67,6 +67,8 @@ Orca/.yarn/*
 !Orca/.yarn/sdks
 !Orca/.yarn/versions
 
+Orca/.env
+
 
 # ====================================================
 # Gitignore for files inside backend/ folder only
