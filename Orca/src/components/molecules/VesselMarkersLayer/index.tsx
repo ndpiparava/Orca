@@ -14,20 +14,33 @@ const VesselMarkersLayer = (props: PropsType) => {
   return (
     <Mapbox.ShapeSource
       id="vesselsSource"
+      cluster={true}
+      clusterMaxZoomLevel={10}
       shape={{
         type: 'FeatureCollection',
         features: geojson.features,
+        
       }}
     >
       <Mapbox.Images
         images={{
           'vessel-icon': require('../../../assets/vessel/vessel.png'),
           'anchored-icon': require('../../../assets/vessel/anchored.png'),
+          'cluster-icon': require('../../../assets/vessel/cluster.png'),
+        }}
+      />
+       <Mapbox.SymbolLayer
+        id="clusteredVessels"
+        filter={['has', 'point_count']}
+        style={{
+          iconImage: 'cluster-icon',
+          iconAllowOverlap: true,
+          iconOpacity: 0.5,
         }}
       />
       <Mapbox.SymbolLayer
         id="vesselsWithHeading"
-        filter={['!=', ['get', 'heading'], 511]}
+        filter={['all', ['!=', ['get', 'heading'], 511], ['!', ['has', 'point_count']]]}
         style={{
           iconImage: 'vessel-icon',
           iconRotate: ['get', 'heading'],
@@ -37,11 +50,11 @@ const VesselMarkersLayer = (props: PropsType) => {
       />
       <Mapbox.SymbolLayer
         id="vesselsWithoutHeading"
-        filter={['==', ['get', 'heading'], 511]}
+        filter={['all', ['==', ['get', 'heading'], 511], ['!', ['has', 'point_count']]]}
         style={{
           iconImage: 'anchored-icon',
           iconAllowOverlap: true,
-          iconOpacity: 0.8,
+          iconOpacity: 0.6,
         }}
       />
     </Mapbox.ShapeSource>
