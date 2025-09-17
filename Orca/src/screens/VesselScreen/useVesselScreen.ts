@@ -1,14 +1,18 @@
 import {MapState} from '@rnmapbox/maps';
-import {useState} from 'react';
+import { useState} from 'react';
 import {useDebouncedCallback} from 'use-debounce';
 
 import {useFetchVessels} from '@Orca/hooks/useFetchVessels';
 import {BoundingBox} from '@Orca/types/types';
 import useMapSettingsStore from '@Orca/stores/useMapSettingsStore';
+import { useToastStore } from '@Orca/stores/useToastStore';
+
+const ERROR_DEBOUNCE_TIME = 3000; // milliseconds
 
 export function useVesselScreen() {
   const minZoom = useMapSettingsStore(state => state.minZoom);
   const [bbox, setBbox] = useState<BoundingBox | null>(null);
+  const showToast = useToastStore(state => state.showToast);
   const onMapDidChangeRegion = useDebouncedCallback((mapState: MapState) => {
     const {
       properties: {bounds, zoom},
@@ -30,7 +34,14 @@ export function useVesselScreen() {
     }
   }, 50);
 
-  const {data: vessels = [], isFetching, error} = useFetchVessels(bbox);
+  const pushErrorToast = useDebouncedCallback(() => { 
+    showToast('Error fetching vessels. Please try again.');
+  }, ERROR_DEBOUNCE_TIME);
+
+  const { data: vessels = [], isFetching, error } = useFetchVessels(bbox);
+  if (error) {
+    pushErrorToast();
+  }
 
   return {vessels, isFetching, error, bbox, onMapDidChangeRegion};
 }

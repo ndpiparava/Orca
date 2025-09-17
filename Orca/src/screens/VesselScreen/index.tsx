@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components/native';
 import OrcaMap from '@Orca/components/organisms/OrcaMap';
 import {useVesselScreen} from './useVesselScreen';
-import ErrorMessage from '@Orca/components/atoms/ErrorMessage';
+import Toast from '@Orca/components/molecules/Toast';
 
 const VesselScreen = () => {
-  const {vessels, onMapDidChangeRegion, error} = useVesselScreen();
+  const {vessels, onMapDidChangeRegion} = useVesselScreen();
   return (
     <StyledSafeArea>
       <Container>
@@ -15,9 +15,7 @@ const VesselScreen = () => {
             onMapDidChangeRegion={onMapDidChangeRegion}
           />
         </MapWrapper>
-        <ErrorMessage
-          message={error ? 'Error fetching vessels. Please try again.' : ''}
-        />
+        <Toast />
       </Container>
     </StyledSafeArea>
   );
