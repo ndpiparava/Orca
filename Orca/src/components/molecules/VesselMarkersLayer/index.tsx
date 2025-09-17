@@ -54,7 +54,7 @@ const VesselMarkersLayer = (props: PropsType) => {
         style={{
           iconImage: 'anchored-icon',
           iconAllowOverlap: true,
-          iconOpacity: 0.6,
+          iconOpacity: 0.4,
         }}
       />
     </Mapbox.ShapeSource>
